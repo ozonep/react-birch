@@ -1,6 +1,6 @@
 {
   "name": "react-birch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stylish solution for rendering nested trees in React apps",
   "main": "dist/esm",
   "module": "dist/esm",

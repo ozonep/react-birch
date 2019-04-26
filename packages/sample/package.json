@@ -1,7 +1,7 @@
 {
   "name": "sample",
   "private": true,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "scripts": {
     "start": "webpack-dev-server"
   },
@@ -13,7 +13,7 @@
     "mobx": "^4.9.4",
     "path-fx": "^2.0.0",
     "react": "^16.8.6",
-    "react-birch": "^1.0.2",
+    "react-birch": "^1.0.3",
     "react-dom": "^16.8.6",
     "valid-filename": "^2.0.1"
   }

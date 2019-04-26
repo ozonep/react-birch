@@ -1,6 +1,6 @@
 {
   "name": "birch-event-emitter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple Event Emitter",
   "repository": {
     "type": "git",
@@ -9,13 +9,9 @@
   "main": "dist/esm",
   "module": "dist/esm",
   "typings": "dist/typings",
-  "files": ["dist"],
-  "dependencies": {
-  },
-  "peerDependencies": {
-  },
-  "devDependencies": {
-  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc"
   },

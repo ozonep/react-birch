@@ -1,6 +1,6 @@
 {
   "name": "birch-context-menu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom context menu for react",
   "repository": {
     "type": "git",
@@ -8,15 +8,15 @@
   },
   "module": "dist/esm",
   "typings": "dist/typings",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "birch-event-emitter": "^1.0.0"
+    "birch-event-emitter": "^1.0.1"
   },
   "peerDependencies": {
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
-  },
-  "devDependencies": {
   },
   "scripts": {
     "build": "tsc"

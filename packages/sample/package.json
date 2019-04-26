@@ -1,22 +1,20 @@
 {
   "name": "sample",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scripts": {
-     "start": "webpack-dev-server"
+    "start": "webpack-dev-server"
   },
   "author": "Tinia Labs",
   "license": "MIT",
   "dependencies": {
-    "react-birch": "^1.0.2",
     "browserfs": "^1.4.3",
+    "color": "^3.1.0",
+    "mobx": "^4.9.4",
     "path-fx": "^2.0.0",
     "react": "^16.8.6",
+    "react-birch": "^1.0.2",
     "react-dom": "^16.8.6",
-    "valid-filename": "^2.0.1",
-    "mobx": "^4.9.4",
-    "color": "^3.1.0"
-  },
-  "devDependencies": {
+    "valid-filename": "^2.0.1"
   }
 }

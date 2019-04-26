@@ -1,18 +1,20 @@
 {
   "name": "react-birch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stylish solution for rendering nested trees in React apps",
   "main": "dist/esm",
   "module": "dist/esm",
   "typings": "dist/typings",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/tinialabs/react-birch.git"
   },
   "scripts": {
     "build": "tsc"
-   },
+  },
   "keywords": [
     "react",
     "virtualized",
@@ -24,18 +26,16 @@
     "object",
     "list"
   ],
-  "devDependencies": {
-  },
   "dependencies": {
-    "birch-context-menu": "^1.0.0",
-    "birch-event-emitter": "^1.0.0",
+    "@githubprimer/octicons-react": "^8.5.0",
+    "birch-context-menu": "^1.0.1",
+    "birch-event-emitter": "^1.0.1",
+    "classnames": "^2.2.6",
     "p-series": "^1.0.0",
     "path-fx": "^2.1.0",
     "react-window": "^1.3.1",
-    "classnames": "^2.2.6",
     "styled-components": "^4.2.0",
-    "styled-system": "3.1.3",
-    "@githubprimer/octicons-react": "^8.5.0"
+    "styled-system": "3.1.3"
   },
   "author": "Tinia Labs",
   "license": "MIT",

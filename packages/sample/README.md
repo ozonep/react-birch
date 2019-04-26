@@ -11,14 +11,10 @@ All the UI features you expect from a filetree are available out-of-the-box, for
  - Context menu interactions
 
 <div>
-    <img src="https://i.imgur.com/94wkW8q.gif" width="350" alt="Birch filetree animated demo" style="float: left;margin-right: 10px;margin-bottom: 10px;">
+    <img src="https://i.imgur.com/fGiLNot.gif" width="350" alt="Birch filetree animated demo" style="float: left;margin-right: 10px;margin-bottom: 10px;">
     <div style="display: inline-block;">
-        <div>
-          <img src="https://i.imgur.com/cTtXhow.gif" width="350" alt="Birch filetree animated demo" style="display: block">
-          <h4>Inline renaming</h4>
-      </div>
       <div>
-        <img src="https://i.imgur.com/DSTJCeD.gif" width="350" alt="Birch filetree animated demo">
+        <img src="https://i.imgur.com/DO4eXl6.gif" width="350" alt="Birch filetree animated demo">
         <h4>Inline item creation</h4>
       </div>
     </div>

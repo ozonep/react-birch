@@ -28,12 +28,6 @@ export interface ITreeViewOptions<T> {
     height?: number
 
     contributes: {
-        commands: {
-            command: string,
-            title?: string,
-            icon?: string,
-            onClick: (view: ITreeViewExtendedHandle, item: any) => void
-        }[]
 
         /** Icon Menus for title row*/
         titleMenus: {
@@ -56,7 +50,7 @@ export interface ITreeViewOptions<T> {
         contextMenus: {
             command: string,
             title: string,
-            icon: string,
+            icon?: string,
             when: (item: any) => boolean,
             group: string,
             onClick: (view: ITreeViewExtendedHandle, item: any) => void

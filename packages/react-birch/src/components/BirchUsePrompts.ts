@@ -1,7 +1,5 @@
 import { useRef, useCallback, useMemo } from 'react'
 
-import * as isValidItemname from 'valid-filename'
-
 import {
 	BirchFolder,
 	BirchItem,
@@ -88,7 +86,7 @@ export const usePrompts = (context: IContext) => {
 
 			let didMarkInvalid = false
 			promptHandle.onChange((currentValue) => {
-				if (currentValue.trim() !== '' && !isValidItemname(currentValue)) {
+				if (currentValue.trim() !== '' && false) {
 					promptHandle.addClassName('invalid')
 					didMarkInvalid = true
 				} else {
@@ -104,7 +102,7 @@ export const usePrompts = (context: IContext) => {
 				if (newName.trim() === '') {
 					return
 				}
-				if (!isValidItemname(newName)) {
+				if (false) {
 					promptHandle.addClassName('invalid')
 					clearTimeout(pulseTimer)
 					promptHandle.addClassName('invalid-input-pulse')

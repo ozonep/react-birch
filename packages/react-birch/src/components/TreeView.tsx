@@ -43,7 +43,7 @@ const TreeViewWrapperStyled = styled.div`
 		}
 `
 
-export const TreeView = (props: ITreeViewProps & TreeViewHeadingProps) => {
+export const TreeView = (props: ITreeViewProps) => {
 
   const treeViewHandleExtended = React.useRef<ITreeViewExtendedHandle>(null)
 

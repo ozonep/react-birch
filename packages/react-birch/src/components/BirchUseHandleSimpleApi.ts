@@ -22,7 +22,6 @@ export class TreeViewHandle<T> implements ITreeViewHandle<T> {
         return this.createTreeView(viewId, { 
             treeDataProvider,
             contributes: {
-                commands: [],
                 contextMenus: [],
                 itemMenus: [],
                 keybindings: [],

@@ -11,7 +11,7 @@ export function useContextMenu() {
         contextMenus: {
             command: string,
             title: string,
-            icon: string,
+            icon?: string,
             when: (item: any) => boolean,
             group: string,
             onClick: (view: ITreeViewExtendedHandle, item: any) => void

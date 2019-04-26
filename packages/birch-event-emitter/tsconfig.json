@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "es6",
+        "outDir": "./dist/esm",
+        "jsx": "react",
+        "sourceMap": false,
+        "declaration": true,
+        "declarationDir": "./dist/typings",
+        "moduleResolution": "node"
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

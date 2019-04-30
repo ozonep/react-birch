@@ -40,9 +40,7 @@ class PromisedFS {
 
 export async function initFS(mountPoint) {
     const treeTemplate = {
-        'yarn.lock': '',
-        'package.json': '',
-        '.gitignore': '',
+        'index.js': '',
         'etc': {
             'lib': {},
             '.apps': {
@@ -73,7 +71,6 @@ export async function initFS(mountPoint) {
                     'package.json': ''
                 }
             },
-
         },
         'usr': {
             'apps': {
@@ -84,22 +81,8 @@ export async function initFS(mountPoint) {
                 'lodash.js': '',
                 'lodash.min.js': '',
             },
-            'trash': {
-                'logo.png': '',
-                'lodash': {
-                    'package.json': '',
-                    'lodash.js': '',
-                    'lodash.min.js': '',
-                }
-            }
         },
         '.trash': {
-            'third_party': {
-                'mozilla': {
-                    'firebug': {},
-                    'thimble': {},
-                },
-            },
             'zip': '',
             'md5sum': '',
             'sha256sum': '',

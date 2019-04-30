@@ -1,4 +1,4 @@
-let Filer = require('filer');
+import Filer from 'filer';
 
 class PromisedFS {
     constructor(fs) {

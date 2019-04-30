@@ -1,34 +1,21 @@
 let Filer = require('filer');
 
-
-// let fs = new Filer.FileSystem();
-// fs.open('/myfile', 'w+', function(err, fd) {
-//     if (err) throw err;
-//     fs.close(fd, function(err) {
-//         if (err) throw err;
-//         fs.stat('/myfile', function(err, stats) {
-//             if (err) throw err;
-//             console.log('stats: ' + JSON.stringify(stats));
-//         });
-//     });
-// });
-
 class PromisedFS {
     constructor(fs) {
         this.fs = fs
     };
 
-    writeFile = (path, data=null) => new Promise((res, rej) => {
-        this.fs.writeFile(path, data || '', null, {
-            pathNotExistsAction: () => 3,
-            isWriteable: () => true,
-            isSynchronous: () => true
-        }, null, (err) => err ? rej(err) : res())
+    writeFile = (path, data) => new Promise((res, rej) => {
+        this.fs.writeFile(path, data || '', {
+            encoding: 'utf8',
+            flag: "w+"
+        }, (err) => err ? rej(err) : res())
     });
 
-    mkdir = (path, mode) => new Promise((res, rej) => {
-        this.fs.mkdir(path, mode, (err) => err ? rej(err) : res())
+    mkdir = (path) => new Promise((res, rej) => {
+        this.fs.mkdir(path, (err) => err ? rej(err) : res())
     });
+
     readdir = (path) => new Promise((res, rej) => {
         this.fs.readdir(path, (err, files) => err ? rej(err) : res(files))
     });
@@ -41,9 +28,7 @@ class PromisedFS {
         this.fs.rename(source, dest, (renameErr) => {
             if (renameErr) {
                 this.fs.link(source, dest, (linkErr) => {
-                    if (linkErr) {
-                        rej(linkErr)
-                    }
+                    if (linkErr) rej(linkErr);
                     this.fs.unlink(source, (unlinkErr) => unlinkErr ? rej(unlinkErr) : res())
                 })
             } else {

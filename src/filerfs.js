@@ -18,7 +18,7 @@ class PromisedFS {
         this.fs = fs
     };
 
-    writeFile = (path, data) => new Promise((res, rej) => {
+    writeFile = (path, data=null) => new Promise((res, rej) => {
         this.fs.writeFile(path, data || '', null, {
             pathNotExistsAction: () => 3,
             isWriteable: () => true,

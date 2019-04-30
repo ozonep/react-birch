@@ -1,11 +1,29 @@
 {
-  "name": "react-birch-mono-repository",
+  "name": "sample",
   "private": true,
+  "version": "1.0.5",
   "scripts": {
-    "clean": "rimraf **/package-lock.json && rimraf **/yarn.lock && rimraf **/node_modules",
-    "build": "lerna run build"
+    "start": "webpack-dev-server"
   },
-  "devDependencies": {
+  "author": "Tinia Labs",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-env": "^2.4.1",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "browserfs": "^1.4.3",
+    "color": "^3.1.0",
+    "filer": "^1.1.2",
+    "mobx": "^4.9.4",
+    "path-fx": "^2.0.0",
+    "react": "^16.8.6",
+    "react-birch": "^1.0.3",
+    "react-dom": "^16.8.6",
+    "valid-filename": "^2.0.1",
     "@types/classnames": "^2.2.7",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
@@ -23,8 +41,5 @@
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.14"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }

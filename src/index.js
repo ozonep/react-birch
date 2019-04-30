@@ -1,61 +1,51 @@
 import * as React from 'react';
-import * as BrowserFS from 'browserfs'
+let Filer = require('filer');
 import { ContextMenuProvider, ContextMenu } from 'birch-context-menu';
 import { render } from 'react-dom';
 import theme from './themes/light'
-
 import { ThemeProvider } from 'styled-components'
 
 import {
     EnumTreeItemType,
-    ITreeDataProvider,
     TreeView,
-    ITreeItemExtended,
     ITEM_HEIGHT,
-    TreeViewItemStyled,
-    ITreeViewExtendedHandle
-} from 'react-birch'
+    TreeViewItemStyled
+} from 'react-birch';
 
-import { initFS } from './fs'
-
+import { initFS } from './filerfs'
 import Icon, { Trashcan } from '@githubprimer/octicons-react'
-
-const Path = BrowserFS.BFSRequire('path');
-
+const Path = Filer.Path;
 import { SidePanel } from './components/SidePanel'
+import 'babel-polyfill';
+
 
 let fid = 0
 
     ; (async () => {
-        const MOUNT_POINT = '/app'
+        const MOUNT_POINT = '/app';
         // In a real app this could be `fs-extra` as it has `Promise` based API
-        const fs = await initFS(MOUNT_POINT)
-
+        const fs = await initFS(MOUNT_POINT);
         const watchTerminate = (e) => {
             console.log("Watch Terminate", e)
-        }
-
-        const treeDataProvider: ITreeDataProvider<{ filename: string, type: number, tid?: string }> = {
-
+        };
+        const treeDataProvider = {
             getChildren: async ({ path, tid }) => {
                 return await Promise.all(
                     (await fs.readdir(path))
                         .map(async (filename) => {
-                            const stat = await fs.stat(Path.join(path, filename))
+                            const stat = await fs.stat(Path.join(path, filename));
                             return {
                                 filename,
                                 type: stat.isDirectory() ? EnumTreeItemType.Folder : EnumTreeItemType.Item
                             }
                         }))
             },
-
             getTreeItem: (element) => {
-
                 return {
                     label: element.filename,
                     tid: element.tid || `${(fid++).toString()}`,
                     type: element.type,
-                    command: element.type == EnumTreeItemType.Folder ? void 0 : {
+                    command: element.type == EnumTreeItemType.Folder ? undefined : {
                         command: 'explorer.showItem',
                         onClick: (item) => {
                             console.log("onShowItem", item.path)
@@ -66,26 +56,23 @@ let fid = 0
                 }
                 
             },
-
             onDidChangeTreeData: (handler) => {
-                console.log("registered onDidChangeTreeData")
+                console.log("registered onDidChangeTreeData");
                   setTimeout(async () => {
-                      await fs.mv("/app/package.json", "/app/thenewpackage.json")
+                      await fs.mv("/app/package.json", "/app/thenewpackage.json");
                       handler({
                           tid: '1',
                           filename: 'thenewpackage.json',
                           type: EnumTreeItemType.Item
                       })
-                  }, 1000)
-
-                return () => void 0
+                  }, 1000);
+                return () => undefined
             },
 
             // used by `TreeView` for when user hits `Enter` key in a new item prompt
-            createItem: async (parent: any, label: string, pathToNewObject: string, fileType: EnumTreeItemType) => {
-
+            createItem: async (parent, label, pathToNewObject, fileType) => {
                 try {
-                    const { path: parentPath, tid: parentTid } = parent
+                    const { path: parentPath, tid: parentTid } = parent;
                     if (fileType === EnumTreeItemType.Item) {
                         await fs.writeFile(pathToNewObject)
                     } else {
@@ -95,32 +82,27 @@ let fid = 0
                         label,
                         type: fileType,
                         tid: `${(fid++).toString()}`
-                    }
-                    console.log("onCreateItem", { parentPath, parentTid, pathToNewObject }, result)
+                    };
+                    console.log("onCreateItem", { parentPath, parentTid, pathToNewObject }, result);
                     return result
-
                 } catch (error) {
-                    return null // or throw error as you see fit
+                    return null
                 }
             },
 
             // used by `TreeView` for drag and drop, and rename prompts
-            moveItem: async (item: any, newParent: any, newPath: string): Promise<boolean> => {
+            moveItem: async (item, newParent, newPath) => {
                 try {
-                    const { path: oldPath, tid } = item
-
-                    console.log("onMoveItem", { path: oldPath, tid }, newPath)
-                    await fs.mv(oldPath, newPath)
+                    const { path: oldPath, tid } = item;
+                    console.log("onMoveItem", { path: oldPath, tid }, newPath);
+                    await fs.mv(oldPath, newPath);
                     return true
                 } catch (error) {
-                    return false // or throw error as you see fit
+                    return false
                 }
             },
-            watch: undefined /*(path: string ) => {
-            console.log("Watch", path);
-            return watchTerminate
-        } */
-        }
+            watch: undefined
+        };
 
         const contributes = {
             titleMenus: [
@@ -128,7 +110,7 @@ let fid = 0
                     command: "explorer.newItem",
                     title: "Add new item",
                     onClick: (view) => {
-                        const item = view.getPseudoActiveItem() || view.getModel().root
+                        const item = view.getPseudoActiveItem() || view.getModel().root;
                         if (item.type === EnumTreeItemType.Folder) {
                             view.newItem(item.path)
                         } else {
@@ -141,7 +123,7 @@ let fid = 0
                     command: "explorer.newFolder",
                     title: "Add new folder",
                     onClick: (view) => {
-                        const item = view.getPseudoActiveItem() || view.getModel().root
+                        const item = view.getPseudoActiveItem() || view.getModel().root;
                         if (item.type === EnumTreeItemType.Folder) {
                             view.newFolder(item.path)
                         } else {
@@ -164,9 +146,9 @@ let fid = 0
                 {
                     command: "explorer.delete",
                     title: "Delete",
-                    onClick: (item: ITreeItemExtended) => {
+                    onClick: (item) => {
                         const { path, tid } = item
-                        console.log("deleted", { path, tid })
+                        console.log("deleted", { path, tid });
                         item.parent.unlinkItem(item)
                     },
                     when: (item) => {
@@ -180,7 +162,7 @@ let fid = 0
                     command: "explorer.newitem",
                     title: 'New Item',
                     group: "1",
-                    onClick: (view: ITreeViewExtendedHandle, item) => {
+                    onClick: (view, item) => {
                         view.newItem(item)
                     },
                     when: (item) => item.type === EnumTreeItemType.Folder
@@ -189,7 +171,7 @@ let fid = 0
                     command: "explorer.newfolder",
                     title: 'New Folder',
                     group: "1",
-                    onClick: (view: ITreeViewExtendedHandle, item) => {
+                    onClick: (view, item) => {
                         view.newFolder(item)
                     },
                     when: (item) => item.type === EnumTreeItemType.Folder
@@ -198,35 +180,30 @@ let fid = 0
                     command: "explorer.renameitem",
                     title: 'Rename',
                     group: "2",
-                    onClick: (view: ITreeViewExtendedHandle, item) => {
-                        view.rename(item as any)
+                    onClick: (view, item) => {
+                        view.rename(item)
                     },
                     when: (item) => true
                 }
             ],
             keybindings: [],
-        }
+        };
+
         const onCreateView = (view) => {
-
-            console.log("onCreateView")
-
+            console.log("onCreateView");
             view.onDidChangeSelection((e) => {
                 console.log("onDidChangeSelection", e)
-            })
-
+            });
             view.onDidChangeVisibility((e) => {
                 console.log("onDidChangeVisibility", e)
-            })
-
+            });
             view.onDidCollapseElement((e) => {
                 console.log("onDidCollapseElement", e)
-            })
-
+            });
             view.onDidExpandElement((e) => {
                 console.log("onDidExpandElement", e)
             })
-
-        }
+        };
 
         render(
             <ThemeProvider theme={theme}>
@@ -249,4 +226,4 @@ let fid = 0
                 </ContextMenuProvider>
             </ThemeProvider>
             , document.getElementById('root'));
-    })()
+    })();

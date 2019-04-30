@@ -1,34 +1,43 @@
-import * as BrowserFS from 'browserfs'
-import { FileSystem } from 'browserfs/dist/node/core/file_system'
-import Stats from 'browserfs/dist/node/core/node_fs_stats'
+let Filer = require('filer');
+
+
+// let fs = new Filer.FileSystem();
+// fs.open('/myfile', 'w+', function(err, fd) {
+//     if (err) throw err;
+//     fs.close(fd, function(err) {
+//         if (err) throw err;
+//         fs.stat('/myfile', function(err, stats) {
+//             if (err) throw err;
+//             console.log('stats: ' + JSON.stringify(stats));
+//         });
+//     });
+// });
 
 class PromisedFS {
-    private fs: FileSystem
     constructor(fs) {
         this.fs = fs
-    }
+    };
 
-    public writeFile = (path: string, data?: any) => new Promise((res, rej) => {
+    writeFile = (path, data) => new Promise((res, rej) => {
         this.fs.writeFile(path, data || '', null, {
             pathNotExistsAction: () => 3,
             isWriteable: () => true,
             isSynchronous: () => true
-        } as any, null, (err) => err ? rej(err) : res())
-    })
+        }, null, (err) => err ? rej(err) : res())
+    });
 
-    public mkdir = (path: string, mode?) => new Promise((res, rej) => {
+    mkdir = (path, mode) => new Promise((res, rej) => {
         this.fs.mkdir(path, mode, (err) => err ? rej(err) : res())
-    })
-
-    public readdir = (path: string) => new Promise<string[]>((res, rej) => {
+    });
+    readdir = (path) => new Promise((res, rej) => {
         this.fs.readdir(path, (err, files) => err ? rej(err) : res(files))
-    })
+    });
 
-    public stat = (path: string) => new Promise<Stats>((res, rej) => {
-        this.fs.stat(path, false, (err, stats) => err ? rej(err) : res(stats))
-    })
+    stat = (path) => new Promise((res, rej) => {
+        this.fs.stat(path, (err, stats) => err ? rej(err) : res(stats))
+    });
 
-    public mv = (source: string, dest: string) => new Promise((res, rej) => {
+    mv = (source, dest) => new Promise((res, rej) => {
         this.fs.rename(source, dest, (renameErr) => {
             if (renameErr) {
                 this.fs.link(source, dest, (linkErr) => {
@@ -44,7 +53,7 @@ class PromisedFS {
     })
 }
 
-export async function initFS(mountPoint: string) {
+export async function initFS(mountPoint) {
     const treeTemplate = {
         'yarn.lock': '',
         'package.json': '',
@@ -113,34 +122,35 @@ export async function initFS(mountPoint: string) {
             'lodash.js': '',
             'lodash.min.js': '',
         }
-    }
+    };
 
     const loadFS = () => new Promise((res, rej) => {
-        BrowserFS.getFileSystem({
-            fs: 'InMemory',
-            options: {}
-        }, (err, resd) => err ? rej(err) : res(resd))
-    })
+        new Filer.FileSystem({
+            name: "diggit-fs",
+            flags: ['FORMAT'],
+            provider: new Filer.FileSystem.providers.Memory()
+        }, (err, fs) => err ? rej(err) : res(fs));
+    });
 
-    const Path = BrowserFS.BFSRequire('path')
+    const Path = Filer.Path;
 
-    const fillFS = async (fs: PromisedFS) => {
+    const fillFS = async (fs) => {
         const fill = async (path, tree) => {
             for (let filename in tree) {
-                const node = tree[filename]
-                const _path = Path.join(path, filename)
+                const node = tree[filename];
+                const _path = Path.join(path, filename);
                 if (typeof node !== 'string') {
-                    await fs.mkdir(_path)
+                    await fs.mkdir(_path);
                     await fill(_path, node)
                 } else {
                     await fs.writeFile(_path)
                 }
             }
-        }
-        await fs.mkdir(mountPoint)
+        };
+        await fs.mkdir(mountPoint);
         return fill(mountPoint, treeTemplate)
-    }
-    const fs = new PromisedFS(await loadFS())
-    await fillFS(fs)
+    };
+    const fs = new PromisedFS(await loadFS());
+    await fillFS(fs);
     return fs
 }

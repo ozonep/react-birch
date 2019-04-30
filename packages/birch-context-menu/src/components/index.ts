@@ -1,5 +1,0 @@
-export {default as StyledMenu} from './StyledMenu'
-export {StyledMenuItem, StyledMenuButton} from './StyledMenuItem'
-export {default as StyledMenuGroup} from './StyledMenuGroup'
-export {default as StyledSubMenu} from './StyledSubMenu'
-export { Portal } from './Portal'
